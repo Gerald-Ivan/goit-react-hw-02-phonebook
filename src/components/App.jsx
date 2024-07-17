@@ -1,40 +1,23 @@
 import { Component } from "react"
+import { ContactForm } from "./ContactForm/ContactForm"
+
 export class App extends Component {
   state = {
-    contacts: [],
+    contact: [],
     filter: ''
   }
+  addContact = newContact => {
+    this.setState(prevState => ({
+      contact: [...prevState.contact, newContact]
+    }));
+    
+  }
+
   render() {
-  const {contacts, name} = this.state;
+    const {contact, filter} = this.setState;
     return (
       <>
-      <h1>Phonebook</h1>
-      {/* create  */}
-      <form>
-        {/* name */}
-      <label>Name</label>
-      <input
-      type="text"
-      name="name"
-      pattern="^[a-zA-Zа-яА-Я]+(([' /-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-      title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
-      required
-      value={name}
- 
-      />
-      {/* telephone */}
-      <label>Number</label>
-      <input
-      type="tel"
-      name="number"
-      pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-      title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-      required
-      />
-      <button type="submit">Add contact</button>
-      </form>
-
-      <h1>Contacts</h1>
+      <ContactForm addContact={this.addContact} contact={contact}/>
       </>
     )
   }
