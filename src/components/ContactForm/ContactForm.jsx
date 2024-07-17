@@ -1,5 +1,6 @@
 import { Component } from "react";
-// import { nanoid } from "nanoid";
+import { nanoid } from "nanoid";
+import css from './contactForm.module.css'
 export class ContactForm extends Component {
     state = {
         name: '',
@@ -16,22 +17,31 @@ export class ContactForm extends Component {
         this.setState({
           number: e.target.value,
         });
-        console.log(this.state.number)
+      
       }
       handleSubmit = (e) => {
         e.preventDefault();
-        const { number, name } = this.setState;
-        const { contact } = this.props
+        const { number, name } = this.state;
+        const { addContact, contacts } = this.props
+
         if (name.trim() === '' || number.trim() === '') {
           return;
         }
         
-        const existingContact = contact.find( contact => contact.name.toLowerCase() === name.toLocaleLowerCase());
+        const existingContact = contacts.find( contact => contact.name.toLowerCase() === name.toLocaleLowerCase());
 
        if (existingContact){
-        alert(`$(name) is already in contacts`)
+        alert(`${name} is already in contacts`);
         return;
        }
+
+       addContact({
+        id: nanoid(),
+        name: name.trim(),
+        number: number.trim(),
+       });
+
+       this.setState({ name: '', number: '' });
       }
    
 
@@ -40,9 +50,9 @@ export class ContactForm extends Component {
     return (
       <>
       <h1>Phonebook</h1>
-      <form onSubmit={this.handleSubmit}>
+       <form className={css.contactForm} onSubmit={this.handleSubmit}>
         {/* name */}
-      <label>
+      <label className={css.formLabel}>
         <p>Name</p>
         <input
         type="text"
@@ -57,12 +67,12 @@ export class ContactForm extends Component {
       </label>
    
       {/* telephone */}
-      <label>
+      <label className={css.formLabel}>
         <p>Number</p>
         <input
         type="tel"
         name="number"
-        pattern = "\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+        pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
         value={number}
@@ -70,10 +80,10 @@ export class ContactForm extends Component {
         />
       </label>
       {/* submit */}
-      <button type="submit">Add contact</button>
+      <button type="submit" className={css.formBtn}>Add contact</button>
       </form>
 
-      <h1>number</h1>
+      <h2>Contact</h2>
       </>
     )
   }
