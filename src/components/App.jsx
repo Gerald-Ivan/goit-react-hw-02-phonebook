@@ -4,7 +4,7 @@ import { ContactForm } from "./ContactForm/ContactForm"
 export class App extends Component {
   state = {
     contact: [],
-    filter: ''
+    // filter: ''
   }
   addContact = newContact => {
     this.setState(prevState => ({
@@ -14,7 +14,7 @@ export class App extends Component {
   }
 
   render() {
-    const {contact, filter} = this.setState;
+    const {contact} = this.setState;
     return (
       <>
       <ContactForm addContact={this.addContact} contact={contact}/>
